@@ -63,6 +63,7 @@ def load_zone_lookup() -> pd.DataFrame:
 
 @st.cache_data(show_spinner="Preparing trip filter options...")
 def load_trip_filter_options():
+    """Load optional trip filters; cloud deployments may not include raw Parquet sources."""
     if not DB_PATH.exists():
         return {"payments": [], "rates": []}
     con = duckdb.connect(str(DB_PATH), read_only=True)
@@ -76,6 +77,9 @@ def load_trip_filter_options():
             "WHERE RatecodeID IS NOT NULL ORDER BY RatecodeID"
         ).fetchdf()["RatecodeID"].tolist()
         return {"payments": [int(x) for x in payments], "rates": [int(x) for x in rates]}
+    except Exception:
+        # The view may reference raw Parquet files that are intentionally not deployed.
+        return {"payments": [], "rates": []}
     finally:
         con.close()
 
@@ -313,7 +317,9 @@ if filtered.empty:
     st.warning("No observations match the selected date, weather, day-type and hour filters.")
     st.stop()
 
-# TRIP-LEVEL SUMMARY — shown directly so the dashboard feels complete on first load.
+# TRIP-LEVEL SUMMARY
+# Trip-level views depend on raw Parquet files that are intentionally not deployed to Streamlit Cloud.
+# Keep the optional section graceful when those files are unavailable; pre-aggregated marts power the dashboard below.
 st.markdown("### Trip-level snapshot")
 trip_summary, trip_payment_summary, trip_error = query_filtered_trips(
     start_date,
@@ -326,34 +332,45 @@ trip_summary, trip_payment_summary, trip_error = query_filtered_trips(
     airport_filter,
 )
 if trip_error:
-    st.warning(f"Trip-level query unavailable: {trip_error}")
+    st.info(
+        "Trip-level filtering is unavailable in this cloud deployment because the original "
+        "trip-level Parquet sources are not bundled. The pre-aggregated dashboard charts "
+        "and six analytical tabs remain available below."
+    )
 elif not trip_summary.empty:
     row = trip_summary.iloc[0]
     a, b, c, d = st.columns(4)
     a.metric("Filtered trips", f"{int(row['trips'] or 0):,}")
-    b.metric("Recorded amount", "N/A" if pd.isna(row["recorded_amount"]) else f"${row['recorded_amount']:,.0f}")
-    c.metric("Recorded tips", "N/A" if pd.isna(row["recorded_tips"]) else f"${row['recorded_tips']:,.0f}")
+    b.metric(
+        "Recorded amount",
+        "N/A" if pd.isna(row["recorded_amount"]) else f"${row['recorded_amount']:,.0f}",
+    )
+    c.metric(
+        "Recorded tips",
+        "N/A" if pd.isna(row["recorded_tips"]) else f"${row['recorded_tips']:,.0f}",
+    )
     d.metric("Invalid-distance trips", f"{int(row['invalid_distance_trips'] or 0):,}")
     st.caption(
         "These trip-level metrics respond to the borough, pickup/drop-off zone, payment, rate and airport filters. "
         "The six analytical tabs below continue to use their stated hourly/monthly grains."
     )
     if not trip_payment_summary.empty:
-        with st.container():
-            st.markdown("#### Payment breakdown for selected trips")
-            payment_view = trip_payment_summary.copy()
-            payment_view["payment_label"] = payment_view["payment_type"].map(
-                lambda value: payment_label(value) if pd.notna(value) else "Null / missing"
-            )
-            payment_view["trip_share_pct"] = 100 * payment_view["trip_count"] / max(payment_view["trip_count"].sum(), 1)
-            st.dataframe(
-                payment_view[[
-                    "payment_label", "trip_count", "trip_share_pct",
-                    "recorded_amount", "recorded_fare", "recorded_tips", "avg_recorded_amount"
-                ]].round(2),
-                hide_index=True,
-                use_container_width=True,
-            )
+        st.markdown("#### Payment breakdown for selected trips")
+        payment_view = trip_payment_summary.copy()
+        payment_view["payment_label"] = payment_view["payment_type"].map(
+            lambda value: payment_label(value) if pd.notna(value) else "Null / missing"
+        )
+        payment_view["trip_share_pct"] = (
+            100 * payment_view["trip_count"] / max(trip_payment_summary["trip_count"].sum(), 1)
+        )
+        st.dataframe(
+            payment_view[[
+                "payment_label", "trip_count", "trip_share_pct",
+                "recorded_amount", "recorded_fare", "recorded_tips", "avg_recorded_amount"
+            ]].round(2),
+            hide_index=True,
+            use_container_width=True,
+        )
 else:
     st.info("No trip-level results matched the selected trip filters.")
 
