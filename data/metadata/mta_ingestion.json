@@ -1,0 +1,472 @@
+{
+  "source_url": "https://data.ny.gov/resource/wujg-7c2s.json",
+  "filter": "transit_mode = subway",
+  "start_date_inclusive": "2024-04-01",
+  "end_date_exclusive": "2024-07-01",
+  "output_file": "data/raw/transit/mta_subway_2024_q2.jsonl",
+  "rows_retrieved": 6504187,
+  "completed_days": 91,
+  "started_at_utc": "2026-10-23T17:21:03.572808+00:00",
+  "completed_at_utc": "2026-10-25T08:49:52.444219+00:00",
+  "file_size_bytes": 2508409844,
+  "sha256": "f00add63299c178cb9870e45391fbff8be4a22ca43a4c41ef3a2b9d089f9b99b",
+  "status": "completed",
+  "daily_counts": {
+    "2024-04-01": {
+      "expected_rows": 73642,
+      "downloaded_rows": 73642,
+      "completed_at_utc": "2026-10-25T07:26:55.463922+00:00"
+    },
+    "2024-04-02": {
+      "expected_rows": 74243,
+      "downloaded_rows": 74243,
+      "completed_at_utc": "2026-10-25T07:26:58.338623+00:00"
+    },
+    "2024-04-03": {
+      "expected_rows": 73976,
+      "downloaded_rows": 73976,
+      "completed_at_utc": "2026-10-25T07:26:59.956872+00:00"
+    },
+    "2024-04-04": {
+      "expected_rows": 74541,
+      "downloaded_rows": 74541,
+      "completed_at_utc": "2026-10-25T07:27:01.581692+00:00"
+    },
+    "2024-04-05": {
+      "expected_rows": 74939,
+      "downloaded_rows": 74939,
+      "completed_at_utc": "2026-10-25T07:27:03.200898+00:00"
+    },
+    "2024-04-06": {
+      "expected_rows": 66280,
+      "downloaded_rows": 66280,
+      "completed_at_utc": "2026-10-25T07:27:04.797968+00:00"
+    },
+    "2024-04-07": {
+      "expected_rows": 63195,
+      "downloaded_rows": 63195,
+      "completed_at_utc": "2026-10-25T07:27:06.544837+00:00"
+    },
+    "2024-04-08": {
+      "expected_rows": 73697,
+      "downloaded_rows": 73697,
+      "completed_at_utc": "2026-10-25T07:27:10.522084+00:00"
+    },
+    "2024-04-09": {
+      "expected_rows": 74543,
+      "downloaded_rows": 74543,
+      "completed_at_utc": "2026-10-25T07:27:15.734268+00:00"
+    },
+    "2024-04-10": {
+      "expected_rows": 74614,
+      "downloaded_rows": 74614,
+      "completed_at_utc": "2026-10-25T07:27:18.748802+00:00"
+    },
+    "2024-04-11": {
+      "expected_rows": 74504,
+      "downloaded_rows": 74504,
+      "completed_at_utc": "2026-10-25T07:27:21.139464+00:00"
+    },
+    "2024-04-12": {
+      "expected_rows": 74634,
+      "downloaded_rows": 74634,
+      "completed_at_utc": "2026-10-25T07:27:23.219728+00:00"
+    },
+    "2024-04-13": {
+      "expected_rows": 66174,
+      "downloaded_rows": 66174,
+      "completed_at_utc": "2026-10-25T07:27:25.822732+00:00"
+    },
+    "2024-04-14": {
+      "expected_rows": 63255,
+      "downloaded_rows": 63255,
+      "completed_at_utc": "2026-10-25T07:27:27.632714+00:00"
+    },
+    "2024-04-15": {
+      "expected_rows": 74308,
+      "downloaded_rows": 74308,
+      "completed_at_utc": "2026-10-25T07:27:29.997475+00:00"
+    },
+    "2024-04-16": {
+      "expected_rows": 74750,
+      "downloaded_rows": 74750,
+      "completed_at_utc": "2026-10-25T07:27:32.372352+00:00"
+    },
+    "2024-04-17": {
+      "expected_rows": 74588,
+      "downloaded_rows": 74588,
+      "completed_at_utc": "2026-10-25T07:27:36.159911+00:00"
+    },
+    "2024-04-18": {
+      "expected_rows": 74495,
+      "downloaded_rows": 74495,
+      "completed_at_utc": "2026-10-25T07:27:40.495554+00:00"
+    },
+    "2024-04-19": {
+      "expected_rows": 74771,
+      "downloaded_rows": 74771,
+      "completed_at_utc": "2026-10-25T07:27:42.781647+00:00"
+    },
+    "2024-04-20": {
+      "expected_rows": 66058,
+      "downloaded_rows": 66058,
+      "completed_at_utc": "2026-10-25T07:27:45.146682+00:00"
+    },
+    "2024-04-21": {
+      "expected_rows": 63659,
+      "downloaded_rows": 63659,
+      "completed_at_utc": "2026-10-25T07:27:47.773891+00:00"
+    },
+    "2024-04-22": {
+      "expected_rows": 72987,
+      "downloaded_rows": 72987,
+      "completed_at_utc": "2026-10-25T07:27:50.179480+00:00"
+    },
+    "2024-04-23": {
+      "expected_rows": 73424,
+      "downloaded_rows": 73424,
+      "completed_at_utc": "2026-10-25T07:28:57.999205+00:00"
+    },
+    "2024-04-24": {
+      "expected_rows": 73634,
+      "downloaded_rows": 73634,
+      "completed_at_utc": "2026-10-25T07:30:07.144259+00:00"
+    },
+    "2024-04-25": {
+      "expected_rows": 73816,
+      "downloaded_rows": 73816,
+      "completed_at_utc": "2026-10-25T07:31:16.684150+00:00"
+    },
+    "2024-04-26": {
+      "expected_rows": 73838,
+      "downloaded_rows": 73838,
+      "completed_at_utc": "2026-10-25T07:32:21.505239+00:00"
+    },
+    "2024-04-27": {
+      "expected_rows": 61849,
+      "downloaded_rows": 61849,
+      "completed_at_utc": "2026-10-25T07:33:17.234014+00:00"
+    },
+    "2024-04-28": {
+      "expected_rows": 60023,
+      "downloaded_rows": 60023,
+      "completed_at_utc": "2026-10-25T07:34:10.807781+00:00"
+    },
+    "2024-04-29": {
+      "expected_rows": 73669,
+      "downloaded_rows": 73669,
+      "completed_at_utc": "2026-10-25T07:35:21.345078+00:00"
+    },
+    "2024-04-30": {
+      "expected_rows": 74104,
+      "downloaded_rows": 74104,
+      "completed_at_utc": "2026-10-25T07:36:29.370903+00:00"
+    },
+    "2024-05-01": {
+      "expected_rows": 74829,
+      "downloaded_rows": 74829,
+      "completed_at_utc": "2026-10-25T07:37:43.648697+00:00"
+    },
+    "2024-05-02": {
+      "expected_rows": 75038,
+      "downloaded_rows": 75038,
+      "completed_at_utc": "2026-10-25T07:38:55.800772+00:00"
+    },
+    "2024-05-03": {
+      "expected_rows": 75104,
+      "downloaded_rows": 75104,
+      "completed_at_utc": "2026-10-25T07:40:03.770569+00:00"
+    },
+    "2024-05-04": {
+      "expected_rows": 64434,
+      "downloaded_rows": 64434,
+      "completed_at_utc": "2026-10-25T07:41:02.950061+00:00"
+    },
+    "2024-05-05": {
+      "expected_rows": 60985,
+      "downloaded_rows": 60985,
+      "completed_at_utc": "2026-10-25T07:41:54.527388+00:00"
+    },
+    "2024-05-06": {
+      "expected_rows": 74056,
+      "downloaded_rows": 74056,
+      "completed_at_utc": "2026-10-25T07:43:03.197963+00:00"
+    },
+    "2024-05-07": {
+      "expected_rows": 74928,
+      "downloaded_rows": 74928,
+      "completed_at_utc": "2026-10-25T07:44:13.790215+00:00"
+    },
+    "2024-05-08": {
+      "expected_rows": 75027,
+      "downloaded_rows": 75027,
+      "completed_at_utc": "2026-10-25T07:45:27.113793+00:00"
+    },
+    "2024-05-09": {
+      "expected_rows": 74977,
+      "downloaded_rows": 74977,
+      "completed_at_utc": "2026-10-25T07:46:37.133045+00:00"
+    },
+    "2024-05-10": {
+      "expected_rows": 74708,
+      "downloaded_rows": 74708,
+      "completed_at_utc": "2026-10-25T07:47:45.620330+00:00"
+    },
+    "2024-05-11": {
+      "expected_rows": 67622,
+      "downloaded_rows": 67622,
+      "completed_at_utc": "2026-10-25T07:48:45.320508+00:00"
+    },
+    "2024-05-12": {
+      "expected_rows": 63898,
+      "downloaded_rows": 63898,
+      "completed_at_utc": "2026-10-25T07:49:41.544658+00:00"
+    },
+    "2024-05-13": {
+      "expected_rows": 74422,
+      "downloaded_rows": 74422,
+      "completed_at_utc": "2026-10-25T07:50:53.010497+00:00"
+    },
+    "2024-05-14": {
+      "expected_rows": 74950,
+      "downloaded_rows": 74950,
+      "completed_at_utc": "2026-10-25T07:52:02.395398+00:00"
+    },
+    "2024-05-15": {
+      "expected_rows": 74795,
+      "downloaded_rows": 74795,
+      "completed_at_utc": "2026-10-25T07:53:17.419389+00:00"
+    },
+    "2024-05-16": {
+      "expected_rows": 75078,
+      "downloaded_rows": 75078,
+      "completed_at_utc": "2026-10-25T07:54:26.971525+00:00"
+    },
+    "2024-05-17": {
+      "expected_rows": 75370,
+      "downloaded_rows": 75370,
+      "completed_at_utc": "2026-10-25T07:55:33.889776+00:00"
+    },
+    "2024-05-18": {
+      "expected_rows": 66547,
+      "downloaded_rows": 66547,
+      "completed_at_utc": "2026-10-25T07:56:31.757098+00:00"
+    },
+    "2024-05-19": {
+      "expected_rows": 63098,
+      "downloaded_rows": 63098,
+      "completed_at_utc": "2026-10-25T07:57:25.112778+00:00"
+    },
+    "2024-05-20": {
+      "expected_rows": 74415,
+      "downloaded_rows": 74415,
+      "completed_at_utc": "2026-10-25T07:58:37.167742+00:00"
+    },
+    "2024-05-21": {
+      "expected_rows": 74501,
+      "downloaded_rows": 74501,
+      "completed_at_utc": "2026-10-25T07:59:45.238260+00:00"
+    },
+    "2024-05-22": {
+      "expected_rows": 74783,
+      "downloaded_rows": 74783,
+      "completed_at_utc": "2026-10-25T08:01:09.445824+00:00"
+    },
+    "2024-05-23": {
+      "expected_rows": 74768,
+      "downloaded_rows": 74768,
+      "completed_at_utc": "2026-10-25T08:02:25.723735+00:00"
+    },
+    "2024-05-24": {
+      "expected_rows": 75023,
+      "downloaded_rows": 75023,
+      "completed_at_utc": "2026-10-25T08:03:43.319778+00:00"
+    },
+    "2024-05-25": {
+      "expected_rows": 64226,
+      "downloaded_rows": 64226,
+      "completed_at_utc": "2026-10-25T08:04:45.342671+00:00"
+    },
+    "2024-05-26": {
+      "expected_rows": 61835,
+      "downloaded_rows": 61835,
+      "completed_at_utc": "2026-10-25T08:05:47.461635+00:00"
+    },
+    "2024-05-27": {
+      "expected_rows": 66180,
+      "downloaded_rows": 66180,
+      "completed_at_utc": "2026-10-25T08:06:59.381275+00:00"
+    },
+    "2024-05-28": {
+      "expected_rows": 73942,
+      "downloaded_rows": 73942,
+      "completed_at_utc": "2026-10-25T08:08:14.952780+00:00"
+    },
+    "2024-05-29": {
+      "expected_rows": 74485,
+      "downloaded_rows": 74485,
+      "completed_at_utc": "2026-10-25T08:09:34.228754+00:00"
+    },
+    "2024-05-30": {
+      "expected_rows": 74525,
+      "downloaded_rows": 74525,
+      "completed_at_utc": "2026-10-25T08:10:54.887326+00:00"
+    },
+    "2024-05-31": {
+      "expected_rows": 75174,
+      "downloaded_rows": 75174,
+      "completed_at_utc": "2026-10-25T08:12:11.456951+00:00"
+    },
+    "2024-06-01": {
+      "expected_rows": 64439,
+      "downloaded_rows": 64439,
+      "completed_at_utc": "2026-10-25T08:13:14.276857+00:00"
+    },
+    "2024-06-02": {
+      "expected_rows": 61341,
+      "downloaded_rows": 61341,
+      "completed_at_utc": "2026-10-25T08:14:12.292402+00:00"
+    },
+    "2024-06-03": {
+      "expected_rows": 74203,
+      "downloaded_rows": 74203,
+      "completed_at_utc": "2026-10-25T08:15:33.476527+00:00"
+    },
+    "2024-06-04": {
+      "expected_rows": 75097,
+      "downloaded_rows": 75097,
+      "completed_at_utc": "2026-10-25T08:16:52.826062+00:00"
+    },
+    "2024-06-05": {
+      "expected_rows": 75032,
+      "downloaded_rows": 75032,
+      "completed_at_utc": "2026-10-25T08:18:07.616838+00:00"
+    },
+    "2024-06-06": {
+      "expected_rows": 74580,
+      "downloaded_rows": 74580,
+      "completed_at_utc": "2026-10-25T08:19:18.022529+00:00"
+    },
+    "2024-06-07": {
+      "expected_rows": 75405,
+      "downloaded_rows": 75405,
+      "completed_at_utc": "2026-10-25T08:20:31.018838+00:00"
+    },
+    "2024-06-08": {
+      "expected_rows": 66237,
+      "downloaded_rows": 66237,
+      "completed_at_utc": "2026-10-25T08:21:30.709406+00:00"
+    },
+    "2024-06-09": {
+      "expected_rows": 63405,
+      "downloaded_rows": 63405,
+      "completed_at_utc": "2026-10-25T08:22:29.320231+00:00"
+    },
+    "2024-06-10": {
+      "expected_rows": 74685,
+      "downloaded_rows": 74685,
+      "completed_at_utc": "2026-10-25T08:23:41.189828+00:00"
+    },
+    "2024-06-11": {
+      "expected_rows": 74796,
+      "downloaded_rows": 74796,
+      "completed_at_utc": "2026-10-25T08:24:51.711658+00:00"
+    },
+    "2024-06-12": {
+      "expected_rows": 74866,
+      "downloaded_rows": 74866,
+      "completed_at_utc": "2026-10-25T08:26:03.044671+00:00"
+    },
+    "2024-06-13": {
+      "expected_rows": 75128,
+      "downloaded_rows": 75128,
+      "completed_at_utc": "2026-10-25T08:27:12.752731+00:00"
+    },
+    "2024-06-14": {
+      "expected_rows": 75269,
+      "downloaded_rows": 75269,
+      "completed_at_utc": "2026-10-25T08:28:22.241068+00:00"
+    },
+    "2024-06-15": {
+      "expected_rows": 64922,
+      "downloaded_rows": 64922,
+      "completed_at_utc": "2026-10-25T08:29:21.680220+00:00"
+    },
+    "2024-06-16": {
+      "expected_rows": 62492,
+      "downloaded_rows": 62492,
+      "completed_at_utc": "2026-10-25T08:30:25.890053+00:00"
+    },
+    "2024-06-17": {
+      "expected_rows": 74390,
+      "downloaded_rows": 74390,
+      "completed_at_utc": "2026-10-25T08:31:42.318764+00:00"
+    },
+    "2024-06-18": {
+      "expected_rows": 75115,
+      "downloaded_rows": 75115,
+      "completed_at_utc": "2026-10-25T08:32:55.698580+00:00"
+    },
+    "2024-06-19": {
+      "expected_rows": 74314,
+      "downloaded_rows": 74314,
+      "completed_at_utc": "2026-10-25T08:34:09.416244+00:00"
+    },
+    "2024-06-20": {
+      "expected_rows": 75193,
+      "downloaded_rows": 75193,
+      "completed_at_utc": "2026-10-25T08:35:26.204806+00:00"
+    },
+    "2024-06-21": {
+      "expected_rows": 75380,
+      "downloaded_rows": 75380,
+      "completed_at_utc": "2026-10-25T08:36:40.318988+00:00"
+    },
+    "2024-06-22": {
+      "expected_rows": 65745,
+      "downloaded_rows": 65745,
+      "completed_at_utc": "2026-10-25T08:37:42.762219+00:00"
+    },
+    "2024-06-23": {
+      "expected_rows": 63510,
+      "downloaded_rows": 63510,
+      "completed_at_utc": "2026-10-25T08:38:43.427689+00:00"
+    },
+    "2024-06-24": {
+      "expected_rows": 74541,
+      "downloaded_rows": 74541,
+      "completed_at_utc": "2026-10-25T08:39:55.197419+00:00"
+    },
+    "2024-06-25": {
+      "expected_rows": 75167,
+      "downloaded_rows": 75167,
+      "completed_at_utc": "2026-10-25T08:41:18.171666+00:00"
+    },
+    "2024-06-26": {
+      "expected_rows": 75084,
+      "downloaded_rows": 75084,
+      "completed_at_utc": "2026-10-25T08:42:35.875916+00:00"
+    },
+    "2024-06-27": {
+      "expected_rows": 75056,
+      "downloaded_rows": 75056,
+      "completed_at_utc": "2026-10-25T08:43:50.686466+00:00"
+    },
+    "2024-06-28": {
+      "expected_rows": 75570,
+      "downloaded_rows": 75570,
+      "completed_at_utc": "2026-10-25T08:45:02.675157+00:00"
+    },
+    "2024-06-29": {
+      "expected_rows": 64613,
+      "downloaded_rows": 64613,
+      "completed_at_utc": "2026-10-25T08:46:07.184702+00:00"
+    },
+    "2024-06-30": {
+      "expected_rows": 62679,
+      "downloaded_rows": 62679,
+      "completed_at_utc": "2026-10-25T08:47:09.416497+00:00"
+    }
+  },
+  "pagination_note": "Offset pagination was used. Matching row counts and unique record-key checks do not prove absence of all possible omissions if the source changes during extraction."
+}

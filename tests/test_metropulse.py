@@ -137,3 +137,46 @@ def test_monthly_metrics_have_valid_values(con):
            OR total_recorded_amount IS NULL
     """).fetchone()[0]
     assert invalid == 0
+
+def test_q2_taxi_window_excludes_exactly_24_boundary_or_anomalous_rows(con):
+    q2_rows = con.execute("""
+        SELECT COUNT(*)
+        FROM int_taxi_trips
+        WHERE tpep_pickup_datetime >= TIMESTAMP '2024-04-01 00:00:00'
+          AND tpep_pickup_datetime < TIMESTAMP '2024-07-01 00:00:00'
+    """).fetchone()[0]
+
+    outside_rows = con.execute("""
+        SELECT COUNT(*)
+        FROM int_taxi_trips
+        WHERE tpep_pickup_datetime < TIMESTAMP '2024-04-01 00:00:00'
+           OR tpep_pickup_datetime >= TIMESTAMP '2024-07-01 00:00:00'
+    """).fetchone()[0]
+
+    assert q2_rows == 10_777_291
+    assert outside_rows == 24
+    assert q2_rows + outside_rows == EXPECTED_TAXI_ROWS
+
+
+def test_q2_out_of_window_rows_are_retained_in_intermediate_view(con):
+    outside_rows = con.execute("""
+        SELECT COUNT(*)
+        FROM int_taxi_trips
+        WHERE tpep_pickup_datetime < TIMESTAMP '2024-04-01 00:00:00'
+           OR tpep_pickup_datetime >= TIMESTAMP '2024-07-01 00:00:00'
+    """).fetchone()[0]
+
+    assert outside_rows == 24
+
+
+def test_hourly_comparison_parquet_reconciles_to_q2_taxi_count(con):
+    parquet_path = DB_PATH.parent / "data" / "processed" / "taxi_hourly_comparison.parquet"
+    assert parquet_path.exists(), f"Missing hourly comparison: {parquet_path}"
+
+    hourly_rows, summed_trips = con.execute("""
+        SELECT COUNT(*), COALESCE(SUM(taxi_trips), 0)
+        FROM read_parquet(?)
+    """, [str(parquet_path)]).fetchone()
+
+    assert hourly_rows == 2_184
+    assert summed_trips == 10_777_291

@@ -1,6 +1,6 @@
 {
   "database": "C:\\Users\\preri\\Downloads\\duckdb-practice\\metropulse.duckdb",
-  "generated_at": "2026-10-26T14:12:23",
+  "generated_at": "2026-10-26T23:33:59+05:30",
   "source_table": "int_taxi_trips",
   "source_row_count": 10777315,
   "checks_run": 17,
@@ -76,7 +76,7 @@
       "check": "Pickup timestamps outside Q2 2024",
       "status": "REVIEW",
       "severity": "warning",
-      "details": "24 rows (0.0002%)"
+      "details": "24 rows (0.0002227% of 10,777,315 intermediate rows). Breakdown: 17 older/future timestamp anomalies and 7 adjacent-period boundary records. Handling: retain in source and intermediate layers; exclude from Q2-specific metrics using the pickup timestamp window [2024-04-01 00:00:00, 2024-07-01 00:00:00)."
     },
     {
       "check": "Pickup timestamp range",
@@ -113,5 +113,17 @@
     "2024-04": 3514289,
     "2024-05": 3723833,
     "2024-06": 3539193
+  },
+  "q2_window_reconciliation": {
+    "period_start_inclusive": "2024-04-01 00:00:00",
+    "period_end_exclusive": "2024-07-01 00:00:00",
+    "intermediate_rows": 10777315,
+    "in_window_rows": 10777291,
+    "out_of_window_rows": 24,
+    "older_or_future_timestamp_anomalies": 17,
+    "adjacent_period_boundary_records": 7,
+    "reconciliation_passed": true,
+    "handling_rule": "Preserve source and intermediate records. Exclude pickup timestamps outside the Q2 window from Q2-specific metrics.",
+    "classification_note": "Timestamp classification does not by itself prove that a trip record is invalid."
   }
 }

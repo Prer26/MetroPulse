@@ -3,7 +3,9 @@ from pathlib import Path
 import duckdb
 import pandas as pd
 import streamlit as st
-
+import geopandas as gpd
+import plotly.express as px
+import zipfile
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "processed"
 DB_PATH = ROOT / "metropulse.duckdb"
@@ -576,6 +578,128 @@ with tab_geo:
             ).sort_values("total_trips", ascending=False)
             zone_total = zone_summary["total_trips"].sum()
             zone_summary["trip_share_pct"] = zone_summary["total_trips"] / zone_total * 100 if zone_total else 0
+
+            # REAL TAXI ZONE CHOROPLETH MAP
+            st.markdown("#### NYC pickup demand map")
+            st.caption(
+                "Each taxi-zone polygon is shaded by recorded pickup trips "
+                "for the selected monthly aggregates."
+            )
+
+            shapefile_zip = ROOT / "data" / "raw" / "zones" / "taxi_zones.zip"
+
+            try:
+                if not shapefile_zip.exists():
+                    st.warning(
+                        "Taxi-zone boundaries are unavailable. "
+                        "Place taxi_zones.zip in data/raw/zones/."
+                    )
+                else:
+                    # Read official zone polygons from the ZIP shapefile.
+                    with zipfile.ZipFile(shapefile_zip) as archive:
+                        shp_name = next(
+                            name for name in archive.namelist()
+                            if name.lower().endswith(".shp")
+                        )
+                        shp_folder = Path("data") / "raw" / "zones" / "_map_shapes"
+                        shp_folder.mkdir(parents=True, exist_ok=True)
+                        archive.extractall(shp_folder)
+
+                    shp_path = shp_folder / shp_name
+                    zone_shapes = gpd.read_file(shp_path)
+
+                    # Normalize the shapefile ID column.
+                    id_candidates = [
+                        col for col in zone_shapes.columns
+                        if col.lower() in {"locationid", "location_id"}
+                    ]
+                    if not id_candidates:
+                        st.error(
+                            "Could not identify the taxi-zone ID in the shapefile. "
+                            f"Available columns: {list(zone_shapes.columns)}"
+                        )
+                    else:
+                        shape_id = id_candidates[0]
+                        zone_shapes["LocationID"] = (
+                            pd.to_numeric(zone_shapes[shape_id], errors="coerce")
+                            .astype("Int64")
+                        )
+
+                        # Aggregate by zone ID, not zone name, to avoid
+                        # accidentally combining zones with similar names.
+                        map_metrics = (
+                            zone_data.groupby("pickup_location_id", as_index=False)
+                            .agg(total_trips=("total_trips", "sum"))
+                        )
+                        map_metrics["pickup_location_id"] = (
+                            pd.to_numeric(
+                                map_metrics["pickup_location_id"],
+                                errors="coerce"
+                            ).astype("Int64")
+                        )
+
+                        map_data = zone_shapes.merge(
+                            map_metrics,
+                            left_on="LocationID",
+                            right_on="pickup_location_id",
+                            how="left",
+                            validate="one_to_one",
+                        )
+                        map_data["total_trips"] = (
+                            map_data["total_trips"].fillna(0)
+                        )
+
+                        # Plotly's geographic map requires longitude/latitude.
+                        if map_data.crs is not None:
+                            map_data = map_data.to_crs(epsg=4326)
+
+                        geojson = map_data.__geo_interface__
+                        map_data["LocationID"] = map_data["LocationID"].astype(str)
+
+                        fig = px.choropleth_map(
+                            map_data,
+                            geojson=geojson,
+                            locations="LocationID",
+                            featureidkey="properties.LocationID",
+                            color="total_trips",
+                            hover_name=(
+                                "zone" if "zone" in map_data.columns
+                                else "Zone" if "Zone" in map_data.columns
+                                else "LocationID"
+                            ),
+                            hover_data={
+                                "LocationID": True,
+                                "total_trips": ":,.0f",
+                            },
+                            color_continuous_scale="Viridis",
+                            map_style="carto-positron",
+                            zoom=8.5,
+                            center={"lat": 40.73, "lon": -73.94},
+                            opacity=0.72,
+                            labels={
+                                "total_trips": "Pickup trips",
+                                "LocationID": "Taxi zone ID",
+                            },
+                        )
+                        fig.update_layout(
+                            height=650,
+                            margin={"r": 0, "t": 10, "l": 0, "b": 0},
+                        )
+                        st.plotly_chart(fig, use_container_width=True)
+
+                        st.caption(
+                            "Source: NYC TLC taxi-zone boundaries and MetroPulse "
+                            "pickup-zone aggregates. Zone totals are monthly "
+                            "aggregates; partial-month date selections include "
+                            "the full selected months."
+                        )
+
+            except Exception as exc:
+                st.warning(
+                    "The pickup-demand map could not be rendered. "
+                    f"Check the shapefile, CRS and map dependencies. Details: {exc}"
+                )
+
             a, b, c = st.columns(3)
             a.metric("Pickup zones", f"{zone_summary['pickup_zone'].nunique():,}")
             b.metric("Trips in selected monthly aggregates", f"{int(zone_total):,}")

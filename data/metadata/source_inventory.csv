@@ -1,0 +1,8 @@
+source_name,relative_path,file_size_bytes,sha256,inventory_created_at_utc
+taxi_april,data/raw/taxi/yellow_tripdata_2024-04.parquet,59133625,ce37f736c7cf9e92164c850ef2b502a8f7bb590fc1804b6edbcb80293da01b89,2026-10-26T17:54:14.771927+00:00
+taxi_may,data/raw/taxi/yellow_tripdata_2024-05.parquet,62553128,1974230be2b5a3ea92e47b5eb77f32dbf1de896d81ad8df4ab6faba52749ad23,2026-10-26T17:54:14.901170+00:00
+taxi_june,data/raw/taxi/yellow_tripdata_2024-06.parquet,59859922,677cf14c8347f745b583f012fbdba072334c6c4efa17bfd6a64369f2ba30329c,2026-10-26T17:54:15.048745+00:00
+weather,data/raw/weather/open-meteo-40.74N74.04W32m.csv,75407,4e98c75961b7164a399e2b75b0a27bbe40347893f21948ba1c575a294a359011,2026-10-26T17:54:15.053598+00:00
+zone_lookup,data/raw/zones/taxi_zone_lookup.csv,12331,1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed,2026-10-26T17:54:15.058778+00:00
+zone_boundaries_zip,data/raw/zones/taxi_zones.zip,1022574,f6d711917bb4340f8f644d5366c51665489eb2d426dd1a4a55677721ae5adf17,2026-10-26T17:54:15.065616+00:00
+subway_q2,data/raw/transit/mta_subway_2024_q2.jsonl,2508409844,f00add63299c178cb9870e45391fbff8be4a22ca43a4c41ef3a2b9d089f9b99b,2026-10-26T17:54:20.642059+00:00
