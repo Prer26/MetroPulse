@@ -332,11 +332,8 @@ trip_summary, trip_payment_summary, trip_error = query_filtered_trips(
     airport_filter,
 )
 if trip_error:
-    st.info(
-        "Trip-level filtering is unavailable in this cloud deployment because the original "
-        "trip-level Parquet sources are not bundled. The pre-aggregated dashboard charts "
-        "and six analytical tabs remain available below."
-    )
+    # Hide the optional trip-level warning in the cloud dashboard.
+    pass
 elif not trip_summary.empty:
     row = trip_summary.iloc[0]
     a, b, c, d = st.columns(4)
