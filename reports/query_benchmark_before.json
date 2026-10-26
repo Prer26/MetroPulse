@@ -1,0 +1,20 @@
+[
+  {
+    "query": "Q1_monthly_full_scan",
+    "seconds_each_run": [
+      1.3467,
+      1.3289,
+      1.3101
+    ],
+    "median_seconds": 1.3289
+  },
+  {
+    "query": "Q2_zone_join_aggregation",
+    "seconds_each_run": [
+      0.4825,
+      0.5395,
+      0.5334
+    ],
+    "median_seconds": 0.5334
+  }
+]

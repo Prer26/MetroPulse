@@ -1,0 +1,117 @@
+{
+  "database": "C:\\Users\\preri\\Downloads\\duckdb-practice\\metropulse.duckdb",
+  "generated_at": "2026-10-26T14:12:23",
+  "source_table": "int_taxi_trips",
+  "source_row_count": 10777315,
+  "checks_run": 17,
+  "review_items": 9,
+  "checks": [
+    {
+      "check": "Source row count",
+      "status": "INFO",
+      "severity": "info",
+      "details": "int_taxi_trips contains 10,777,315 rows"
+    },
+    {
+      "check": "Missing passenger count",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "1,224,023 rows (11.3574%)"
+    },
+    {
+      "check": "Zero passenger count",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "115,178 rows (1.0687%)"
+    },
+    {
+      "check": "Negative fare",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "179,180 rows (1.6626%)"
+    },
+    {
+      "check": "Negative total amount",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "141,536 rows (1.3133%)"
+    },
+    {
+      "check": "Nonpositive or missing trip distance",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "148,558 rows (1.3784%)"
+    },
+    {
+      "check": "Negative duration",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "120 rows (0.0011%)"
+    },
+    {
+      "check": "Zero duration",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "3,256 rows (0.0302%)"
+    },
+    {
+      "check": "Missing pickup timestamp",
+      "status": "PASS",
+      "severity": "info",
+      "details": "0 rows (0.0000%)"
+    },
+    {
+      "check": "Missing dropoff timestamp",
+      "status": "PASS",
+      "severity": "info",
+      "details": "0 rows (0.0000%)"
+    },
+    {
+      "check": "Dropoff before pickup",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "120 rows (0.0011%)"
+    },
+    {
+      "check": "Pickup timestamps outside Q2 2024",
+      "status": "REVIEW",
+      "severity": "warning",
+      "details": "24 rows (0.0002%)"
+    },
+    {
+      "check": "Pickup timestamp range",
+      "status": "INFO",
+      "severity": "info",
+      "details": "min=2002-12-31 16:46:07, max=2026-06-26 23:53:12"
+    },
+    {
+      "check": "Exact duplicate excess rows",
+      "status": "PASS",
+      "severity": "info",
+      "details": "0 excess duplicate rows"
+    },
+    {
+      "check": "Staging-to-intermediate row-count reconciliation",
+      "status": "PASS",
+      "severity": "info",
+      "details": "stg_taxi_trips=10,777,315; int_taxi_trips=10,777,315; difference=0"
+    },
+    {
+      "check": "Expected Q2 2024 source months",
+      "status": "PASS",
+      "severity": "info",
+      "details": "monthly counts={'2024-04': 3514289, '2024-05': 3723833, '2024-06': 3539193}; expected months=['2024-04', '2024-05', '2024-06']"
+    },
+    {
+      "check": "Demo table excluded from full-dataset reconciliation",
+      "status": "INFO",
+      "severity": "info",
+      "details": "taxi_trips contains 5 sample rows; not compared with int_taxi_trips"
+    }
+  ],
+  "monthly_source_counts": {
+    "2024-04": 3514289,
+    "2024-05": 3723833,
+    "2024-06": 3539193
+  }
+}

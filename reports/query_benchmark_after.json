@@ -1,0 +1,38 @@
+{
+  "Q1_original_monthly": {
+    "median_seconds": 1.611,
+    "rows_returned": 3,
+    "runs_seconds": [
+      1.2544,
+      1.6628,
+      1.611
+    ]
+  },
+  "Q1_optimized_monthly_mart": {
+    "median_seconds": 0.0009,
+    "rows_returned": 3,
+    "runs_seconds": [
+      0.0011,
+      0.0009,
+      0.0008
+    ]
+  },
+  "Q2_original_zone": {
+    "median_seconds": 0.4299,
+    "rows_returned": 260,
+    "runs_seconds": [
+      0.4299,
+      0.4029,
+      0.435
+    ]
+  },
+  "Q2_zone_mart": {
+    "median_seconds": 0.0038,
+    "rows_returned": 260,
+    "runs_seconds": [
+      0.0038,
+      0.004,
+      0.0032
+    ]
+  }
+}

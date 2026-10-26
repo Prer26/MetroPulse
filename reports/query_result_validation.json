@@ -1,0 +1,16 @@
+{
+  "monthly": {
+    "before_rows": 3,
+    "after_rows": 3,
+    "values_match": true,
+    "difference_count": 0,
+    "sample_differences": []
+  },
+  "zones": {
+    "before_rows": 260,
+    "after_rows": 260,
+    "values_match": true,
+    "difference_count": 0,
+    "sample_differences": []
+  }
+}
