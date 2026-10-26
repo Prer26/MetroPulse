@@ -1,0 +1,6 @@
+@"
+streamlit
+duckdb
+pandas
+pyarrow
+"@ | Set-Content requirements.txt
