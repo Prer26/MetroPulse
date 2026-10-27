@@ -22,13 +22,8 @@ Turning taxi, subway, weather, and geographic data into practical mobility insig
 
 ## 🎬 Dashboard Preview
 
-<!-- Add an animated GIF of the dashboard at docs/assets/metropulse-demo.gif -->
+<img width="1872" height="905" alt="image" src="https://github.com/user-attachments/assets/f3641724-2bfe-40ff-9a40-831a8cf23b91" />
 
-<p align="center">
-  <img src="docs/assets/metropulse-demo.gif" alt="MetroPulse animated dashboard preview" width="900"/>
-</p>
-
-> Add your screen recording as a GIF at `docs/assets/metropulse-demo.gif`. Until the GIF exists in the repository, replace this block with your overview screenshot or remove the image block temporarily.
 
 ## 📌 About the Project
 
