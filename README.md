@@ -310,7 +310,7 @@ See [`AI_USAGE.md`](AI_USAGE.md) for the project's AI-use disclosure. Keep it ac
 
 - **Public repository:** https://github.com/Prer26/MetroPulse
 - **Live dashboard:** https://metropulse-d79bit6957zkt6me5ro6mu.streamlit.app/
-- **Final commit SHA:** add the SHA of the final commit after all approved changes are committed.
+- **Final commit SHA:** 3edfb1bdbcfb5ec113d665cd3856513e49cf8d62
 - **Explainer video 1:** https://drive.google.com/file/d/1iD0QUpmUDlifsplttKS7RNvoYn3G3XD_/view?usp=sharing
 - **Explainer video 2:** https://drive.google.com/file/d/1oyojVe7VXOyIlVoLZJXWYVPYUCsvIc_y/view?usp=sharing
 
