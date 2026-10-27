@@ -193,6 +193,18 @@ def query_filtered_trips(
 
 
 hourly = load_parquet("taxi_transit_weather_hourly.parquet")
+# Standardize ridership column names for all dashboard tabs.
+if "total_ridership" not in hourly.columns:
+    if "subway_ridership" in hourly.columns:
+        hourly = hourly.rename(
+            columns={"subway_ridership": "total_ridership"}
+        )
+    else:
+        st.error(
+            "The hourly dataset is missing its ridership column. "
+            "Expected 'total_ridership' or 'subway_ridership'."
+        )
+        st.stop()
 zones = load_parquet("pickup_zone_metrics.parquet")
 airport = load_parquet("airport_daily_unit_economics.parquet")
 airport_sensitivity = load_parquet("airport_sensitivity.parquet")
