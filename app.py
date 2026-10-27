@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 
 import duckdb
 import pandas as pd
@@ -13,7 +13,7 @@ ZONE_LOOKUP_PATH = ROOT / "data" / "raw" / "zones" / "taxi_zone_lookup.csv"
 
 st.set_page_config(
     page_title="MetroPulse | NYC Mobility Intelligence",
-    page_icon="ðŸš•",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -88,27 +88,27 @@ def load_trip_filter_options():
 
 def payment_label(code):
     labels = {
-        0: "0 â€” Unknown / unmapped",
-        1: "1 â€” Credit card",
-        2: "2 â€” Cash",
-        3: "3 â€” No charge",
-        4: "4 â€” Dispute",
-        5: "5 â€” Unknown",
-        6: "6 â€” Voided trip",
+        0: "0 - Unknown / unmapped",
+        1: "1 - Credit card",
+        2: "2 - Cash",
+        3: "3 - No charge",
+        4: "4 - Dispute",
+        5: "5 - Unknown",
+        6: "6 - Voided trip",
     }
-    return labels.get(int(code), f"{code} â€” Other / unmapped")
+    return labels.get(int(code), f"{code} - Other / unmapped")
 
 
 def rate_label(code):
     labels = {
-        1: "1 â€” Standard rate",
-        2: "2 â€” JFK",
-        3: "3 â€” Newark",
-        4: "4 â€” Nassau or Westchester",
-        5: "5 â€” Negotiated fare",
-        6: "6 â€” Group ride",
+        1: "1 - Standard rate",
+        2: "2 - JFK",
+        3: "3 - Newark",
+        4: "4 - Nassau or Westchester",
+        5: "5 - Negotiated fare",
+        6: "6 - Group ride",
     }
-    return labels.get(int(code), f"{code} â€” Unknown / other")
+    return labels.get(int(code), f"{code} - Unknown / other")
 
 
 def query_filtered_trips(
@@ -215,7 +215,7 @@ hourly["day_type"] = hourly["hour_start"].dt.dayofweek.map(
 min_date = hourly["hour_start"].min().date()
 max_date = hourly["hour_start"].max().date()
 
-st.sidebar.markdown("# ðŸš• MetroPulse")
+st.sidebar.markdown("#  MetroPulse")
 st.sidebar.caption("NYC mobility intelligence")
 st.sidebar.divider()
 st.sidebar.subheader("Dashboard filters")
@@ -295,7 +295,7 @@ if selected_hours:
     filtered = filtered[filtered["hour_of_day"].isin(selected_hours)]
 
 st.sidebar.divider()
-st.sidebar.caption("Source period: Aprilâ€“June 2024")
+st.sidebar.caption("Source period: April to June 2024")
 st.sidebar.caption("Leave optional filters empty to include all values. Hourly charts use the combined pre-aggregated mart; trip-level filters apply to the trip summary and payment breakdown.")
 
 st.markdown(
@@ -303,7 +303,7 @@ st.markdown(
     <div class="hero">
       <h1 style="margin:0;">MetroPulse</h1>
       <p style="margin:.35rem 0 0 0;">
-        NYC Mobility Intelligence Â· Taxi demand, subway ridership, weather and data quality
+        NYC Mobility Intelligence | Taxi demand, subway ridership, weather and data quality
       </p>
     </div>
     """,
@@ -311,8 +311,8 @@ st.markdown(
 )
 
 st.caption(
-    f"Selected period: {start_date:%b %d, %Y} â€“ {end_date:%b %d, %Y} "
-    f"Â· {len(filtered):,} hourly observations after filters"
+    f"Selected period: {start_date:%b %d, %Y}  to  {end_date:%b %d, %Y} "
+    f"| {len(filtered):,} hourly observations after filters"
 )
 
 if filtered.empty:
@@ -423,8 +423,8 @@ with tab_exec:
 
     with pilot1:
         with st.container(border=True):
-            st.markdown("#### âœˆï¸ Pilot 1 Â· Airport operations")
-            st.caption("START SMALL Â· JFK BENCHMARKED AGAINST LGA")
+            st.markdown("####  Pilot 1 | Airport operations")
+            st.caption("START SMALL | JFK BENCHMARKED AGAINST LGA")
             a1, a2 = st.columns(2)
             a1.metric("JFK pickups", "487,038")
             a2.metric("LaGuardia pickups", "354,408")
@@ -442,11 +442,11 @@ with tab_exec:
 
     with pilot2:
         with st.container(border=True):
-            st.markdown("#### ðŸš• Pilot 2 Â· Peak-hour positioning")
-            st.caption("TEST WINDOW Â· 4â€“7 PM Â· HIGH-VOLUME MANHATTAN")
+            st.markdown("####  Pilot 2 | Peak-hour positioning")
+            st.caption("TEST WINDOW | 4 to 7 PM | HIGH-VOLUME MANHATTAN")
             p1, p2 = st.columns(2)
-            p1.metric("Midtown Center", "125,014", help="Pickups during the 4â€“6 PM analysis window.")
-            p2.metric("Upper East Side South", "116,284", help="Pickups during the 4â€“6 PM analysis window.")
+            p1.metric("Midtown Center", "125,014", help="Pickups during the 4 to 6 PM analysis window.")
+            p2.metric("Upper East Side South", "116,284", help="Pickups during the 4 to 6 PM analysis window.")
             st.markdown("**Compare pilot shifts with control shifts**")
             st.markdown(
                 "- Trips per vehicle-hour\n"
@@ -473,8 +473,8 @@ with tab_exec:
     criteria1, criteria2 = st.columns(2, gap="medium")
     with criteria1:
         st.markdown(
-            "- **â‰¥10%** improvement in contribution per vehicle-hour\n"
-            "- **â‰¥8%** fewer empty miles per completed trip"
+            "- **>=10%** improvement in contribution per vehicle-hour\n"
+            "- **>=8%** fewer empty miles per completed trip"
         )
     with criteria2:
         st.markdown(
@@ -518,8 +518,8 @@ with tab_time:
     if not by_hour.empty:
         peak = by_hour.loc[by_hour["avg_taxi_trips"].idxmax()]
         quiet = by_hour.loc[by_hour["avg_taxi_trips"].idxmin()]
-        peak_hour_label = f"{int(peak['hour_of_day']):02d}:00â€“{(int(peak['hour_of_day']) + 1) % 24:02d}:00"
-        quiet_hour_label = f"{int(quiet['hour_of_day']):02d}:00â€“{(int(quiet['hour_of_day']) + 1) % 24:02d}:00"
+        peak_hour_label = f"{int(peak['hour_of_day']):02d}:00 to {(int(peak['hour_of_day']) + 1) % 24:02d}:00"
+        quiet_hour_label = f"{int(quiet['hour_of_day']):02d}:00 to {(int(quiet['hour_of_day']) + 1) % 24:02d}:00"
         m1, m2, m3 = st.columns(3)
         m1.metric("Busiest average hour", peak_hour_label, help="Hour with the highest mean taxi-trip count in the filtered observations.")
         m2.metric("Peak-hour average trips", f"{peak['avg_taxi_trips']:,.0f}")
@@ -859,71 +859,110 @@ with tab_fares:
                 use_container_width=True,
             )
 
-    f1, f2 = st.columns(2)
-    with f1:
-        st.markdown("#### Average recorded amount by hour")
-        amount_hour = filtered.groupby("hour_of_day", as_index=False).agg(
-            avg_recorded_amount=("avg_recorded_amount", "mean")
-        )
-        st.bar_chart(
-            amount_hour.set_index("hour_of_day"),
-            y="avg_recorded_amount",
-            use_container_width=True,
-        )
+    st.markdown("#### Average recorded amount by hour")
+    amount_hour = filtered.groupby("hour_of_day", as_index=False).agg(
+        avg_recorded_amount=("avg_recorded_amount", "mean")
+    )
+    st.bar_chart(
+        amount_hour.set_index("hour_of_day"),
+        y="avg_recorded_amount",
+        use_container_width=True,
+    )
 
-    with f2:
-        st.markdown("#### Airport daily unit economics")
-        if not airport.empty:
-            airport_view = airport.copy()
-            if "pickup_date" in airport_view.columns:
-                airport_view["pickup_date"] = pd.to_datetime(
-                    airport_view["pickup_date"], errors="coerce"
-                )
-                airport_view = airport_view[
-                    (airport_view["pickup_date"].dt.date >= start_date)
-                    & (airport_view["pickup_date"].dt.date <= end_date)
-                ]
-            st.dataframe(airport_view, hide_index=True, use_container_width=True)
+    st.divider()
+    st.subheader("Airport daily unit economics")
+    st.caption(
+        "Compare JFK and LaGuardia using the selected date range. "
+        "Recorded trip amounts are not profit."
+    )
 
-            # ADDITION: airport comparison charts using the existing daily mart.
-            if not airport_view.empty:
-                st.markdown("#### JFK vs LaGuardia: airport comparison")
-                airport_chart = (
-                    airport_view.groupby("airport", as_index=False)
-                    .agg(
-                        eligible_trips=("eligible_trips", "sum"),
-                        median_amount_per_mile=("median_amount_per_mile", "median"),
-                    )
-                )
+    if not airport.empty:
+        airport_view = airport.copy()
+        if "pickup_date" in airport_view.columns:
+            airport_view["pickup_date"] = pd.to_datetime(
+                airport_view["pickup_date"], errors="coerce"
+            )
+            airport_view = airport_view[
+                (airport_view["pickup_date"].dt.date >= start_date)
+                & (airport_view["pickup_date"].dt.date <= end_date)
+            ]
 
-                st.markdown("**Median daily recorded amount per mile ($)**")
-                st.bar_chart(
-                    airport_chart.set_index("airport")[["median_amount_per_mile"]],
-                    use_container_width=True,
+        if not airport_view.empty:
+            airport_chart = (
+                airport_view.groupby("airport", as_index=False)
+                .agg(
+                    eligible_trips=("eligible_trips", "sum"),
+                    median_amount_per_mile=("median_amount_per_mile", "median"),
                 )
+                .sort_values("median_amount_per_mile", ascending=True)
+            )
 
-                st.markdown("**Eligible trip volume**")
-                st.bar_chart(
-                    airport_chart.set_index("airport")[["eligible_trips"]],
-                    use_container_width=True,
-                )
+            st.markdown("##### Median daily recorded amount per mile")
+            st.bar_chart(
+                airport_chart.set_index("airport")[["median_amount_per_mile"]],
+                horizontal=True,
+                use_container_width=True,
+            )
 
-                st.caption(
-                    "The first chart shows the median of daily airport medians "
-                    "within the selected dates. Eligible trip volume is summed "
-                    "across those dates. Amount per mile is a recorded trip "
-                    "metric, not profit."
-                )
+            st.markdown("##### Eligible trip volume")
+            st.bar_chart(
+                airport_chart.set_index("airport")[["eligible_trips"]],
+                horizontal=True,
+                use_container_width=True,
+            )
+
+            st.markdown("##### Daily unit-economics detail")
+            st.dataframe(
+                airport_view,
+                hide_index=True,
+                use_container_width=True,
+            )
+            st.caption(
+                "Amount per mile is the median of daily airport medians "
+                "within the selected dates. Eligible trip volume is summed "
+                "across those dates. Neither metric measures profit."
+            )
         else:
-            st.info("Airport unit-economics mart is not available.")
+            st.info("No airport observations match the selected date range.")
+    else:
+        st.info("Airport unit-economics mart is not available.")
 
     if not airport_sensitivity.empty:
-        st.markdown("#### Airport sensitivity analysis")
-        st.dataframe(airport_sensitivity, hide_index=True, use_container_width=True)
+        st.markdown("#### Sensitivity to recorded-amount cap")
+        sensitivity_view = airport_sensitivity.rename(columns={
+            "amount_cap": "Recorded amount cap ($)",
+            "matched_days": "Matched dates",
+            "avg_daily_median_jfk": "JFK median ($/mile)",
+            "avg_daily_median_lga": "LaGuardia median ($/mile)",
+            "avg_daily_difference": "Difference ($/mile)",
+            "pct_higher_at_lga": "LaGuardia higher (%)",
+        }).copy()
 
-    st.warning(
-        "Amounts are recorded trip amounts, not profit. Payment-code labels are provisional; "
-        "unknown/unmapped codes must remain visible until verified against source documentation."
+        numeric_columns = [
+            "JFK median ($/mile)",
+            "LaGuardia median ($/mile)",
+            "Difference ($/mile)",
+            "LaGuardia higher (%)",
+        ]
+        for column in numeric_columns:
+            if column in sensitivity_view.columns:
+                sensitivity_view[column] = sensitivity_view[column].map(
+                    lambda value: f"{value:,.3f}" if pd.notna(value) else "N/A"
+                )
+
+        st.dataframe(
+            sensitivity_view,
+            hide_index=True,
+            use_container_width=True,
+        )
+        st.caption(
+            "Sensitivity scenarios reuse the same underlying trips. "
+            "Recorded amount per mile is not profit."
+        )
+
+    st.info(
+        "Payment-code labels are provisional. Unknown or unmapped codes "
+        "remain visible until verified against source documentation."
     )
 
 # WEATHER AND SUBWAY
@@ -1001,7 +1040,7 @@ with tab_quality:
 
             st.markdown("#### Full trip-level audit")
             st.caption(
-                f"Generated: {audit.get('generated_at', 'Not recorded')} Â· "
+                f"Generated: {audit.get('generated_at', 'Not recorded')} | "
                 f"Source: {audit.get('source_table', 'Not recorded')}"
             )
 
@@ -1134,7 +1173,7 @@ with tab_quality:
 
 st.divider()
 st.caption(
-    f"MetroPulse Â· Data period Aprâ€“Jun 2024 Â· Dashboard refreshed {pd.Timestamp.now():%Y-%m-%d %H:%M} Â· "
+    f"MetroPulse | Data period Apr to Jun 2024 | Dashboard refreshed {pd.Timestamp.now():%Y-%m-%d %H:%M} | "
     "Figures are based on available pre-aggregated marts."
 )
 
