@@ -1,6 +1,6 @@
  <div align="center">
 
-# 🌆 MetroPulse
+# MetroPulse
 
 ### NYC Mobility Intelligence | Q2 2024
 
@@ -12,20 +12,19 @@ Turning taxi, subway, weather, and geographic data into practical mobility insig
 [![DuckDB](https://img.shields.io/badge/Database-DuckDB-FFF000?style=for-the-badge)](https://duckdb.org/)
 [![Streamlit](https://img.shields.io/badge/Framework-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
 
-**Study period:** April 1 – June 30, 2024  
-**Geography:** New York City  
+**Study period:** April 1 - June 30, 2024
+**Geography:** New York City
 **Dashboard:** [Open MetroPulse](https://metropulse-d79bit6957zkt6me5ro6mu.streamlit.app/)
 
 </div>
 
 ---
 
-## 🎬 Dashboard Preview
+## Dashboard Preview
 
-<img width="1872" height="905" alt="image" src="https://github.com/user-attachments/assets/f3641724-2bfe-40ff-9a40-831a8cf23b91" />
+<img width="1872" height="905" alt="MetroPulse dashboard screenshot" src="https://github.com/user-attachments/assets/f3641724-2bfe-40ff-9a40-831a8cf23b91" />
 
-
-## 📌 About the Project
+## About the Project
 
 MetroPulse is an interactive mobility-intelligence project that analyzes New York City yellow taxi demand during Q2 2024 and explores its relationship with geographic pickup patterns, subway ridership, weather, fares, and data quality.
 
@@ -33,7 +32,7 @@ The project combines public datasets, Python-based data processing, SQL transfor
 
 Its goal is to turn raw mobility data into understandable evidence that can inform operational decisions while making assumptions, uncertainty, and data limitations visible.
 
-## 🎯 Business Question
+## Business Question
 
 **What can Q2 2024 NYC mobility data tell us about where and when taxi demand concentrates, and which operational opportunities deserve further testing?**
 
@@ -116,27 +115,6 @@ MetroPulse contains six dashboard sections:
 
 Interactive filters include the date range, weather condition, day type, and hour of day.
 
-### Dashboard Screenshots
-
-Add screenshots captured from your live dashboard. These suggested filenames keep the repository organized.
-
-| View | Screenshot path |
-|---|---|
-| Executive overview | `docs/assets/dashboard-overview.png` |
-| Temporal demand | `docs/assets/temporal-demand.png` |
-| Geographic demand | `docs/assets/geographic-demand.png` |
-| Fares and payments | `docs/assets/fares-payments.png` |
-| Weather and subway | `docs/assets/weather-subway.png` |
-| Data quality | `docs/assets/data-quality.png` |
-
-Example Markdown for displaying an image:
-
-```markdown
-![MetroPulse executive overview](docs/assets/dashboard-overview.png)
-```
-
-Create the `docs/assets/` folder and add your actual image files before committing the screenshots. Do not leave broken image links in the final README.
-
 ## 🧰 Technology Stack
 
 | Technology | Purpose |
@@ -158,7 +136,7 @@ The exact dependencies are listed in `requirements.txt`. Only claim additional l
 
 ## 🗃️ Data Sources and Study Period
 
-The project focuses on April 1 through June 30, 2024, using public-source data relating to:
+The project focuses on April 1 - June 30, 2024, using public-source data relating to:
 
 - NYC TLC yellow taxi trip records for April, May, and June 2024.
 - Taxi-zone lookup and geographic reference data.
@@ -333,9 +311,8 @@ See [`AI_USAGE.md`](AI_USAGE.md) for the project's AI-use disclosure. Keep it ac
 - **Public repository:** https://github.com/Prer26/MetroPulse
 - **Live dashboard:** https://metropulse-d79bit6957zkt6me5ro6mu.streamlit.app/
 - **Final commit SHA:** add the SHA of the final commit after all approved changes are committed.
-- **Explainer video:** (https://drive.google.com/file/d/1iD0QUpmUDlifsplttKS7RNvoYn3G3XD_/view?usp=sharing)  https://drive.google.com/file/d/1oyojVe7VXOyIlVoLZJXWYVPYUCsvIc_y/view?usp=sharing
-
-
+- **Explainer video 1:** https://drive.google.com/file/d/1iD0QUpmUDlifsplttKS7RNvoYn3G3XD_/view?usp=sharing
+- **Explainer video 2:** https://drive.google.com/file/d/1oyojVe7VXOyIlVoLZJXWYVPYUCsvIc_y/view?usp=sharing
 
 ---
 
