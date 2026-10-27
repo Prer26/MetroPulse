@@ -967,34 +967,170 @@ with tab_weather:
 
 # DATA QUALITY
 with tab_quality:
+    import json
+
     st.subheader("Data quality and coverage")
-    st.caption("Quality indicators below are limited to the checks represented in the selected hourly mart.")
+    st.caption(
+        "Trip-level checks come from the saved full-dataset audit. "
+        "Hourly checks below are separate and respond to the dashboard filters."
+    )
+
+    report_path = ROOT / "reports" / "data_quality_report.json"
+
+    if report_path.exists():
+        try:
+            with report_path.open("r", encoding="utf-8-sig") as report_file:
+                audit = json.load(report_file)
+
+            audit_checks = audit.get("checks", [])
+            q2_reconciliation = audit.get("q2_window_reconciliation", {})
+
+            metric1, metric2, metric3 = st.columns(3)
+            metric1.metric(
+                "Audited trip rows",
+                f"{audit.get('source_row_count', 0):,}"
+            )
+            metric2.metric(
+                "Checks run",
+                f"{audit.get('checks_run', len(audit_checks)):,}"
+            )
+            metric3.metric(
+                "Items requiring review",
+                f"{audit.get('review_items', 0):,}"
+            )
+
+            st.markdown("#### Full trip-level audit")
+            st.caption(
+                f"Generated: {audit.get('generated_at', 'Not recorded')} · "
+                f"Source: {audit.get('source_table', 'Not recorded')}"
+            )
+
+            audit_table = pd.DataFrame([
+                {
+                    "Check": item.get("check", "Unnamed check"),
+                    "Status": item.get("status", "UNKNOWN"),
+                    "Severity": item.get("severity", "unknown"),
+                    "Details": item.get("details", "")
+                }
+                for item in audit_checks
+            ])
+
+            if not audit_table.empty:
+                st.dataframe(
+                    audit_table,
+                    hide_index=True,
+                    use_container_width=True
+                )
+
+            if q2_reconciliation:
+                st.markdown("#### Q2 2024 timestamp reconciliation")
+
+                rec1, rec2, rec3 = st.columns(3)
+                rec1.metric(
+                    "Rows inside Q2 window",
+                    f"{q2_reconciliation.get('in_window_rows', 0):,}"
+                )
+                rec2.metric(
+                    "Rows outside Q2 window",
+                    f"{q2_reconciliation.get('out_of_window_rows', 0):,}"
+                )
+                rec3.metric(
+                    "Timestamp anomalies",
+                    f"{q2_reconciliation.get('older_or_future_timestamp_anomalies', 0):,}"
+                )
+
+                st.caption(
+                    "Q2 window: "
+                    f"{q2_reconciliation.get('period_start_inclusive', 'Not recorded')} "
+                    "inclusive to "
+                    f"{q2_reconciliation.get('period_end_exclusive', 'Not recorded')} "
+                    "exclusive."
+                )
+                st.info(q2_reconciliation.get(
+                    "handling_rule",
+                    "No timestamp handling rule recorded."
+                ))
+                st.caption(q2_reconciliation.get(
+                    "classification_note",
+                    "Timestamp classification may not establish record validity."
+                ))
+        except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+            st.error(f"Could not load the saved trip-level quality report: {exc}")
+    else:
+        st.warning(
+            "The full trip-level quality report is unavailable. "
+            "Ensure reports/data_quality_report.json is included in the deployment."
+        )
+
+    st.markdown("#### Hourly quality checks")
     trips = int(filtered["taxi_trips"].sum())
     invalid_distance = int(filtered["invalid_distance_trips"].sum())
     invalid_pct = 100 * invalid_distance / trips if trips else 0
     missing_temp = int(filtered["temperature_c"].isna().sum())
-    missing_rider = int(filtered["total_ridership"].isna().sum())
-    weather_cols = [c for c in ["temperature_c", "relative_humidity_pct", "precipitation_mm", "wind_speed_kmh"] if c in filtered.columns]
-    missing_weather = int(filtered[weather_cols].isna().any(axis=1).sum()) if weather_cols else 0
+    missing_rider = int(filtered["subway_ridership"].isna().sum())
+    missing_weather = int(
+        filtered[["temperature_c", "precipitation_mm", "wind_speed_kmh"]]
+        .isna()
+        .any(axis=1)
+        .sum()
+    )
+
     q1, q2, q3, q4 = st.columns(4)
     q1.metric("Hourly observations", f"{len(filtered):,}")
-    q2.metric("Invalid-distance trips", f"{invalid_distance:,}")
+    q2.metric("Taxi trips in filtered hours", f"{trips:,}")
     q3.metric("Invalid-distance share", f"{invalid_pct:.2f}%")
     q4.metric("Hours missing weather fields", f"{missing_weather:,}")
+
     quality_table = pd.DataFrame([
-        {"Check": "Hourly observations", "Count": len(filtered), "Interpretation": "Hourly rows after dashboard filters."},
-        {"Check": "Taxi trips flagged for invalid distance", "Count": invalid_distance, "Interpretation": "Sum of invalid-distance trip counts carried by hourly aggregates."},
-        {"Check": "Hours with missing temperature", "Count": missing_temp, "Interpretation": "Hourly rows without temperature."},
-        {"Check": "Hours with missing subway ridership", "Count": missing_rider, "Interpretation": "Hourly rows without recorded ridership."},
-        {"Check": "Hours with any missing weather field", "Count": missing_weather, "Interpretation": "At least one available weather measurement is missing."},
+        {
+            "Check": "Hourly observations",
+            "Count": len(filtered),
+            "Interpretation": "Hourly rows after dashboard filters."
+        },
+        {
+            "Check": "Taxi trips flagged for invalid distance",
+            "Count": invalid_distance,
+            "Interpretation": "Invalid-distance trip counts carried by hourly aggregates."
+        },
+        {
+            "Check": "Hours with missing temperature",
+            "Count": missing_temp,
+            "Interpretation": "Hourly rows without temperature."
+        },
+        {
+            "Check": "Hours with missing subway ridership",
+            "Count": missing_rider,
+            "Interpretation": "Hourly rows without recorded ridership."
+        },
+        {
+            "Check": "Hours with any missing weather field",
+            "Count": missing_weather,
+            "Interpretation": "At least one available weather measurement is missing."
+        },
     ])
-    st.markdown("#### Quality check summary")
-    st.dataframe(quality_table, hide_index=True, use_container_width=True)
+
+    st.dataframe(
+        quality_table,
+        hide_index=True,
+        use_container_width=True
+    )
+
     st.markdown("#### Invalid-distance share by hour")
-    quality_by_hour = filtered.groupby("hour_of_day", as_index=False).agg(invalid_distance_trips=("invalid_distance_trips", "sum"), taxi_trips=("taxi_trips", "sum"))
-    quality_by_hour["invalid_distance_pct"] = 100 * quality_by_hour["invalid_distance_trips"] / quality_by_hour["taxi_trips"].replace(0, pd.NA)
-    st.bar_chart(quality_by_hour.set_index("hour_of_day")[["invalid_distance_pct"]], use_container_width=True)
-    st.warning("This view does not replace the full trip-level quality report. Negative fares/totals, invalid durations, missing passenger counts, duplicates and out-of-period timestamps must be checked in the underlying trip data.")
+    quality_by_hour = filtered.groupby(
+        "hour_of_day",
+        as_index=False
+    ).agg(
+        invalid_distance_trips=("invalid_distance_trips", "sum"),
+        taxi_trips=("taxi_trips", "sum")
+    )
+    quality_by_hour["invalid_distance_pct"] = (
+        100 * quality_by_hour["invalid_distance_trips"]
+        / quality_by_hour["taxi_trips"].replace(0, pd.NA)
+    )
+    st.bar_chart(
+        quality_by_hour.set_index("hour_of_day")[["invalid_distance_pct"]],
+        use_container_width=True
+    )
 
 st.divider()
 st.caption(
