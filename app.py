@@ -1,4 +1,4 @@
-from pathlib import Path
+﻿from pathlib import Path
 
 import duckdb
 import pandas as pd
@@ -13,7 +13,7 @@ ZONE_LOOKUP_PATH = ROOT / "data" / "raw" / "zones" / "taxi_zone_lookup.csv"
 
 st.set_page_config(
     page_title="MetroPulse | NYC Mobility Intelligence",
-    page_icon="🚕",
+    page_icon="ðŸš•",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -88,27 +88,27 @@ def load_trip_filter_options():
 
 def payment_label(code):
     labels = {
-        0: "0 — Unknown / unmapped",
-        1: "1 — Credit card",
-        2: "2 — Cash",
-        3: "3 — No charge",
-        4: "4 — Dispute",
-        5: "5 — Unknown",
-        6: "6 — Voided trip",
+        0: "0 â€” Unknown / unmapped",
+        1: "1 â€” Credit card",
+        2: "2 â€” Cash",
+        3: "3 â€” No charge",
+        4: "4 â€” Dispute",
+        5: "5 â€” Unknown",
+        6: "6 â€” Voided trip",
     }
-    return labels.get(int(code), f"{code} — Other / unmapped")
+    return labels.get(int(code), f"{code} â€” Other / unmapped")
 
 
 def rate_label(code):
     labels = {
-        1: "1 — Standard rate",
-        2: "2 — JFK",
-        3: "3 — Newark",
-        4: "4 — Nassau or Westchester",
-        5: "5 — Negotiated fare",
-        6: "6 — Group ride",
+        1: "1 â€” Standard rate",
+        2: "2 â€” JFK",
+        3: "3 â€” Newark",
+        4: "4 â€” Nassau or Westchester",
+        5: "5 â€” Negotiated fare",
+        6: "6 â€” Group ride",
     }
-    return labels.get(int(code), f"{code} — Unknown / other")
+    return labels.get(int(code), f"{code} â€” Unknown / other")
 
 
 def query_filtered_trips(
@@ -215,7 +215,7 @@ hourly["day_type"] = hourly["hour_start"].dt.dayofweek.map(
 min_date = hourly["hour_start"].min().date()
 max_date = hourly["hour_start"].max().date()
 
-st.sidebar.markdown("# 🚕 MetroPulse")
+st.sidebar.markdown("# ðŸš• MetroPulse")
 st.sidebar.caption("NYC mobility intelligence")
 st.sidebar.divider()
 st.sidebar.subheader("Dashboard filters")
@@ -295,7 +295,7 @@ if selected_hours:
     filtered = filtered[filtered["hour_of_day"].isin(selected_hours)]
 
 st.sidebar.divider()
-st.sidebar.caption("Source period: April–June 2024")
+st.sidebar.caption("Source period: Aprilâ€“June 2024")
 st.sidebar.caption("Leave optional filters empty to include all values. Hourly charts use the combined pre-aggregated mart; trip-level filters apply to the trip summary and payment breakdown.")
 
 st.markdown(
@@ -303,7 +303,7 @@ st.markdown(
     <div class="hero">
       <h1 style="margin:0;">MetroPulse</h1>
       <p style="margin:.35rem 0 0 0;">
-        NYC Mobility Intelligence · Taxi demand, subway ridership, weather and data quality
+        NYC Mobility Intelligence Â· Taxi demand, subway ridership, weather and data quality
       </p>
     </div>
     """,
@@ -311,8 +311,8 @@ st.markdown(
 )
 
 st.caption(
-    f"Selected period: {start_date:%b %d, %Y} – {end_date:%b %d, %Y} "
-    f"· {len(filtered):,} hourly observations after filters"
+    f"Selected period: {start_date:%b %d, %Y} â€“ {end_date:%b %d, %Y} "
+    f"Â· {len(filtered):,} hourly observations after filters"
 )
 
 if filtered.empty:
@@ -423,8 +423,8 @@ with tab_exec:
 
     with pilot1:
         with st.container(border=True):
-            st.markdown("#### ✈️ Pilot 1 · Airport operations")
-            st.caption("START SMALL · JFK BENCHMARKED AGAINST LGA")
+            st.markdown("#### âœˆï¸ Pilot 1 Â· Airport operations")
+            st.caption("START SMALL Â· JFK BENCHMARKED AGAINST LGA")
             a1, a2 = st.columns(2)
             a1.metric("JFK pickups", "487,038")
             a2.metric("LaGuardia pickups", "354,408")
@@ -442,11 +442,11 @@ with tab_exec:
 
     with pilot2:
         with st.container(border=True):
-            st.markdown("#### 🚕 Pilot 2 · Peak-hour positioning")
-            st.caption("TEST WINDOW · 4–7 PM · HIGH-VOLUME MANHATTAN")
+            st.markdown("#### ðŸš• Pilot 2 Â· Peak-hour positioning")
+            st.caption("TEST WINDOW Â· 4â€“7 PM Â· HIGH-VOLUME MANHATTAN")
             p1, p2 = st.columns(2)
-            p1.metric("Midtown Center", "125,014", help="Pickups during the 4–6 PM analysis window.")
-            p2.metric("Upper East Side South", "116,284", help="Pickups during the 4–6 PM analysis window.")
+            p1.metric("Midtown Center", "125,014", help="Pickups during the 4â€“6 PM analysis window.")
+            p2.metric("Upper East Side South", "116,284", help="Pickups during the 4â€“6 PM analysis window.")
             st.markdown("**Compare pilot shifts with control shifts**")
             st.markdown(
                 "- Trips per vehicle-hour\n"
@@ -473,8 +473,8 @@ with tab_exec:
     criteria1, criteria2 = st.columns(2, gap="medium")
     with criteria1:
         st.markdown(
-            "- **≥10%** improvement in contribution per vehicle-hour\n"
-            "- **≥8%** fewer empty miles per completed trip"
+            "- **â‰¥10%** improvement in contribution per vehicle-hour\n"
+            "- **â‰¥8%** fewer empty miles per completed trip"
         )
     with criteria2:
         st.markdown(
@@ -518,8 +518,8 @@ with tab_time:
     if not by_hour.empty:
         peak = by_hour.loc[by_hour["avg_taxi_trips"].idxmax()]
         quiet = by_hour.loc[by_hour["avg_taxi_trips"].idxmin()]
-        peak_hour_label = f"{int(peak['hour_of_day']):02d}:00–{(int(peak['hour_of_day']) + 1) % 24:02d}:00"
-        quiet_hour_label = f"{int(quiet['hour_of_day']):02d}:00–{(int(quiet['hour_of_day']) + 1) % 24:02d}:00"
+        peak_hour_label = f"{int(peak['hour_of_day']):02d}:00â€“{(int(peak['hour_of_day']) + 1) % 24:02d}:00"
+        quiet_hour_label = f"{int(quiet['hour_of_day']):02d}:00â€“{(int(quiet['hour_of_day']) + 1) % 24:02d}:00"
         m1, m2, m3 = st.columns(3)
         m1.metric("Busiest average hour", peak_hour_label, help="Hour with the highest mean taxi-trip count in the filtered observations.")
         m2.metric("Peak-hour average trips", f"{peak['avg_taxi_trips']:,.0f}")
@@ -1001,7 +1001,7 @@ with tab_quality:
 
             st.markdown("#### Full trip-level audit")
             st.caption(
-                f"Generated: {audit.get('generated_at', 'Not recorded')} · "
+                f"Generated: {audit.get('generated_at', 'Not recorded')} Â· "
                 f"Source: {audit.get('source_table', 'Not recorded')}"
             )
 
@@ -1067,7 +1067,7 @@ with tab_quality:
     invalid_distance = int(filtered["invalid_distance_trips"].sum())
     invalid_pct = 100 * invalid_distance / trips if trips else 0
     missing_temp = int(filtered["temperature_c"].isna().sum())
-    missing_rider = int(filtered["subway_ridership"].isna().sum())
+    missing_rider = int(filtered["total_ridership"].isna().sum())
     missing_weather = int(
         filtered[["temperature_c", "precipitation_mm", "wind_speed_kmh"]]
         .isna()
@@ -1134,6 +1134,7 @@ with tab_quality:
 
 st.divider()
 st.caption(
-    f"MetroPulse · Data period Apr–Jun 2024 · Dashboard refreshed {pd.Timestamp.now():%Y-%m-%d %H:%M} · "
+    f"MetroPulse Â· Data period Aprâ€“Jun 2024 Â· Dashboard refreshed {pd.Timestamp.now():%Y-%m-%d %H:%M} Â· "
     "Figures are based on available pre-aggregated marts."
 )
+
